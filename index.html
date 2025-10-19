@@ -45,7 +45,7 @@
 
   <div class="card">
     <h2>Order Summary</h2>
-    <p>Test Order - ₹1</p>
+    <p>Test Order - ₹10</p>
     <button id="upiBtn">Pay via UPI</button>
     <p class="status" id="statusText">Awaiting Payment...</p>
   </div>
@@ -64,7 +64,7 @@
 
   document.getElementById("upiBtn").addEventListener("click", () => {
     const orderId = 'ORDER' + Date.now(); // keeps each payment unique
-    const upiLink = `upi://pay?pa=paytm.s1vcxhk@pty&pn=Harshith%20Reddy&am=1.00&cu=INR&tn=${orderId}`;
+    const upiLink = `upi://pay?pa=paytm.s1vcxhk@pty&pn=Harshith%20Reddy&am=10.00&cu=INR&tn=${orderId}`;
     window.location.href = upiLink;
   });
 
@@ -79,7 +79,7 @@
   <script>
     document.getElementById("upiBtn").addEventListener("click", () => {
     const orderId = 'ORDER' + Date.now(); // keeps each payment unique
-    const upiLink = `upi://pay?pa=paytm.s1vcxhk@pty&pn=Harshith%20Reddy&am=1.00&cu=INR&tn=${orderId}`;
+    const upiLink = `upi://pay?pa=paytm.s1vcxhk@pty&pn=Harshith%20Reddy&am=10.00&cu=INR&tn=${orderId}`;
       window.location.href = upiLink;
     });
   </script>
