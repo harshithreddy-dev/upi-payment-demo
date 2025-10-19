@@ -63,7 +63,8 @@
   document.querySelector('.card').insertBefore(orderEl, document.getElementById('upiBtn'));
 
   document.getElementById("upiBtn").addEventListener("click", () => {
-    const upiLink = `upi://pay?pa=harshithbuddy545466@okhdfcbank&pn=Harshith%20Reddy&am=1.00&cu=INR&tn=${orderId}`;
+    const orderId = 'ORDER' + Date.now(); // keeps each payment unique
+    const upiLink = `upi://pay?pa=paytm.s1vcxhk@pty&pn=Harshith%20Reddy&am=1.00&cu=INR&tn=${orderId}`;
     window.location.href = upiLink;
   });
 
@@ -77,7 +78,8 @@
 </script>
   <script>
     document.getElementById("upiBtn").addEventListener("click", () => {
-      const upiLink = "upi://pay?pa=harshithbuddy545466@okhdfcbank&pn=Harshith%20Reddy&am=1.00&cu=INR&tn=TestPayment";
+    const orderId = 'ORDER' + Date.now(); // keeps each payment unique
+    const upiLink = `upi://pay?pa=paytm.s1vcxhk@pty&pn=Harshith%20Reddy&am=1.00&cu=INR&tn=${orderId}`;
       window.location.href = upiLink;
     });
   </script>
