@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple UPI Payment</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: #f3f4f6;
+    }
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .status {
+      margin-top: 1rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Order Summary</h2>
+    <p>Test Order - ₹1</p>
+    <button id="upiBtn">Pay via UPI</button>
+    <p class="status" id="statusText">Awaiting Payment...</p>
+  </div>
+
+  <script>
+    document.getElementById("upiBtn").addEventListener("click", () => {
+      const upiLink = "upi://pay?pa=harshithreddy@oksbi&pn=Harshith%20Reddy&am=1.00&cu=INR&tn=TestPayment";
+      window.location.href = upiLink;
+    });
+  </script>
+
+</body>
+</html>
