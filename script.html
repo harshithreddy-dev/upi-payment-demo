@@ -1,0 +1,26 @@
+<!-- Add this inside your card under Pay button -->
+<input id="refInput" placeholder="Enter last 4 digits of UPI ref" style="padding:.6rem;border-radius:8px;margin-top:8px;width:100%;box-sizing:border-box"/>
+<button id="verifyBtn">I've Paid — Verify</button>
+<p id="statusText">Awaiting Payment...</p>
+
+<script>
+  // generate order ID
+  const orderId = 'ORDER' + Date.now();
+  // show orderId somewhere on page if you want:
+  const orderEl = document.createElement('p');
+  orderEl.textContent = 'Order ID: ' + orderId;
+  document.querySelector('.card').insertBefore(orderEl, document.getElementById('upiBtn'));
+
+  document.getElementById("upiBtn").addEventListener("click", () => {
+    const upiLink = `upi://pay?pa=harshithreddy@oksbi&pn=Harshith%20Reddy&am=1.00&cu=INR&tn=${orderId}`;
+    window.location.href = upiLink;
+  });
+
+  document.getElementById('verifyBtn').addEventListener('click', () => {
+    const input = document.getElementById('refInput').value.trim();
+    if (!input) return alert('Paste the last 4 digits from the UPI SMS');
+    // naive verification: show success
+    document.getElementById('statusText').textContent = '✅ Payment marked as complete — reference: ' + input;
+    document.getElementById('statusText').style.color = 'green';
+  });
+</script>
