@@ -1,88 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simple UPI Payment</title>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background: #f3f4f6;
-    }
-    .card {
-      background: white;
-      padding: 2rem;
-      border-radius: 1rem;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-    button {
-      margin-top: 1rem;
-      padding: 0.8rem 1.5rem;
-      font-size: 1rem;
-      border: none;
-      border-radius: 10px;
-      background-color: #007bff;
-      color: white;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    .status {
-      margin-top: 1rem;
-      font-weight: 600;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Coding - UPI Payment Demo</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+    </style>
 </head>
-<body>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
 
-  <div class="card">
-    <h2>Order Summary</h2>
-    <p>Test Order - ₹10</p>
-    <button id="upiBtn">Pay via UPI</button>
-    <p class="status" id="statusText">Awaiting Payment...</p>
-  </div>
-  <!-- Add this inside your card under Pay button -->
-<input id="refInput" placeholder="Enter last 4 digits of UPI ref" style="padding:.6rem;border-radius:8px;margin-top:8px;width:100%;box-sizing:border-box"/>
-<button id="verifyBtn">I've Paid — Verify</button>
-<p id="statusText">Awaiting Payment...</p>
+    <div id="app" class="bg-white shadow-2xl rounded-xl p-6 md:p-10 w-full max-w-md transform transition duration-500 ease-in-out hover:shadow-3xl">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Payment Gateway Demo</h1>
+            <p class="text-sm text-gray-500 mt-1">Powered by Cashfree Payment Forms (Public Checkout)</p>
+        </header>
 
-<script>
-  // generate order ID
-  const orderId = 'ORDER' + Date.now();
-  // show orderId somewhere on page if you want:
-  const orderEl = document.createElement('p');
-  orderEl.textContent = 'Order ID: ' + orderId;
-  document.querySelector('.card').insertBefore(orderEl, document.getElementById('upiBtn'));
+        <!-- Order Summary Card -->
+        <div class="bg-blue-50 border border-blue-200 p-5 rounded-lg mb-6">
+            <h2 class="text-xl font-semibold text-blue-800 mb-3">Order Summary</h2>
+            
+            <div class="space-y-2 text-gray-700">
+                <div class="flex justify-between border-b border-blue-100 pb-1">
+                    <span>Product/Service Fee:</span>
+                    <span class="font-medium">₹1.00</span>
+                </div>
+                <div class="flex justify-between border-b border-blue-100 pb-1">
+                    <span>GST (0% for demo):</span>
+                    <span class="font-medium">₹0.00</span>
+                </div>
+                <div class="flex justify-between pt-2 text-lg font-bold text-blue-900">
+                    <span>Total Amount Due:</span>
+                    <span>₹1.00</span>
+                </div>
+            </div>
 
-  document.getElementById("upiBtn").addEventListener("click", () => {
-    const orderId = 'ORDER' + Date.now(); // keeps each payment unique
-    const upiLink = `upi://pay?pa=paytm.s1vcxhk@pty&pn=Harshith%20Reddy&am=10.00&cu=INR&tn=${orderId}`;
-    window.location.href = upiLink;
-  });
+            <div class="mt-4 text-xs text-gray-600 flex justify-between items-center bg-white p-3 rounded-md border border-dashed border-gray-300">
+                <span id="orderId" class="font-mono text-xs">Order ID: Loading...</span>
+                <button onclick="copyOrderId()" class="text-blue-500 hover:text-blue-700 transition duration-150 p-1 rounded-full hover:bg-gray-100" title="Copy Order ID">
+                    <!-- Lucide Icon: Copy -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                </button>
+            </div>
+        </div>
 
-  document.getElementById('verifyBtn').addEventListener('click', () => {
-    const input = document.getElementById('refInput').value.trim();
-    if (!input) return alert('Paste the last 4 digits from the UPI SMS');
-    // naive verification: show success
-    document.getElementById('statusText').textContent = '✅ Payment marked as complete — reference: ' + input;
-    document.getElementById('statusText').style.color = 'green';
-  });
-</script>
-  <script>
-    document.getElementById("upiBtn").addEventListener("click", () => {
-    const orderId = 'ORDER' + Date.now(); // keeps each payment unique
-    const upiLink = `upi://pay?pa=paytm.s1vcxhk@pty&pn=Harshith%20Reddy&am=10.00&cu=INR&tn=${orderId}`;
-      window.location.href = upiLink;
-    });
-  </script>
+        <!-- Payment Button -->
+        <button id="payButton" onclick="redirectToPayment()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-[1.01] flex items-center justify-center space-x-2">
+            <!-- Inline SVG for UPI Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-indian-rupee"><path d="M6 3h12"/><path d="M6 8h12"/><path d="M6 13l8.5 4.5 1.5-2.5"/><path d="M10 13h4"/></svg>
+            <span>Pay ₹1.00 via Cashfree Form</span>
+        </button>
+        <p class="text-center text-xs text-gray-500 mt-2">You will be redirected to the secure Cashfree Payment Form.</p>
+        
+        <!-- Verification Section (for demo) -->
+        <div class="mt-8 pt-6 border-t border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Manual Verification (Demo)</h3>
+            <p class="text-sm text-gray-600 mb-4">After a successful payment, enter the last 4 digits of the UPI Reference Number (UTR) below for manual verification demo.</p>
 
+            <div class="flex space-x-3">
+                <input type="text" id="utrInput" maxlength="4" placeholder="Last 4 digits of UTR" class="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-center text-lg tracking-widest" oninput="this.value = this.value.replace(/[^0-9]/g, '').toUpperCase()">
+                <button onclick="verifyPayment()" class="bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-3 rounded-lg shadow-md transition duration-300 ease-in-out">
+                    Verify
+                </button>
+            </div>
+
+            <!-- Verification Status Message Box -->
+            <div id="statusMessage" class="mt-4 p-3 rounded-lg hidden text-center font-medium"></div>
+        </div>
+    </div>
+
+    <script>
+        // CRITICAL: Replace this with your actual Cashfree PAYMENT FORM URL
+        // Go to your Cashfree Dashboard -> Payment Forms -> Create Form -> Copy the public sharing URL here.
+        // Example: https://gopay.cashfree.com/p/forms/your-form-id
+        const CASHFREE_PAYMENT_URL = "https://payments.cashfree.com/forms/upipaymentdemo"; // IMPORTANT: Update this
+
+        // --- Utility Functions ---
+
+        /**
+         * Generates a simple, unique Order ID based on timestamp and a random suffix.
+         * Format: VBC-YYYYMMDD-HHMMSS-XXXX
+         */
+        function generateOrderId() {
+            const now = new Date();
+            const datePart = now.getFullYear().toString() + 
+                             (now.getMonth() + 1).toString().padStart(2, '0') + 
+                             now.getDate().toString().padStart(2, '0');
+            const timePart = now.getHours().toString().padStart(2, '0') + 
+                             now.getMinutes().toString().padStart(2, '0') + 
+                             now.getSeconds().toString().padStart(2, '0');
+            const randomPart = Math.floor(1000 + Math.random() * 9000); // 4 digit random
+            return `VBC-${datePart}-${timePart}-${randomPart}`;
+        }
+
+        /**
+         * Copies the Order ID to the clipboard.
+         */
+        function copyOrderId() {
+            const orderIdText = document.getElementById('orderId').textContent.replace('Order ID: ', '');
+            // document.execCommand('copy') is used for compatibility in iFrame environments
+            const tempInput = document.createElement('input');
+            tempInput.value = orderIdText;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            showMessage('Order ID copied to clipboard!', 'success');
+        }
+
+        /**
+         * Displays a status message to the user.
+         */
+        function showMessage(message, type) {
+            const msgBox = document.getElementById('statusMessage');
+            msgBox.textContent = message;
+            msgBox.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700', 'bg-yellow-100', 'text-yellow-700');
+            
+            if (type === 'success') {
+                msgBox.classList.add('bg-green-100', 'text-green-700');
+            } else if (type === 'error') {
+                msgBox.classList.add('bg-red-100', 'text-red-700');
+            } else {
+                msgBox.classList.add('bg-yellow-100', 'text-yellow-700');
+            }
+
+            // Hide after 5 seconds
+            setTimeout(() => {
+                msgBox.classList.add('hidden');
+            }, 5000);
+        }
+
+        // --- Core Payment Logic ---
+
+        /**
+         * Generates the unique ID on page load.
+         */
+        window.onload = function() {
+            const newOrderId = generateOrderId();
+            document.getElementById('orderId').textContent = `Order ID: ${newOrderId}`;
+        };
+
+        /**
+         * Redirects the user to the Cashfree payment URL.
+         */
+        function redirectToPayment() {
+            // Note: We cannot pass the dynamically generated Order ID (VBC-...) 
+            // directly to the no-code Payment Form URL. 
+            // The Payment Form will generate its own order ID when the user lands on it.
+            
+            if (CASHFREE_PAYMENT_URL.includes("your-unique-payment-form-id")) {
+                showMessage("CRITICAL ERROR: Please update the CASHFREE_PAYMENT_URL variable in the script with your actual Cashfree Payment Form link.", 'error');
+                return;
+            }
+
+            // Redirecting the window to the Cashfree Payment Form
+            window.location.href = CASHFREE_PAYMENT_URL;
+        }
+
+        /**
+         * Mock function to verify the UTR (for demo purposes only).
+         */
+        function verifyPayment() {
+            const utr = document.getElementById('utrInput').value.trim();
+            const orderId = document.getElementById('orderId').textContent.replace('Order ID: ', '');
+
+            if (utr.length !== 4 || isNaN(utr)) {
+                showMessage("Please enter exactly 4 digits for the UTR.", 'error');
+                return;
+            }
+
+            // --- Mock Verification Logic ---
+            // Simulating successful verification for UTRs ending in '9999' or '1234'
+            if (utr === '9999' || utr === '1234') {
+                showMessage(`SUCCESS! Payment for Order ${orderId} verified successfully using UTR ending in ${utr}. (Demo successful)`, 'success');
+            } else {
+                showMessage(`PENDING/FAILED. Payment for Order ${orderId} with UTR ending in ${utr} could not be confirmed. Please wait or check your bank statement. (Demo failure)`, 'error');
+            }
+
+            document.getElementById('utrInput').value = ''; // Clear input after attempt
+        }
+    </script>
 </body>
 </html>
+
+
+
+
