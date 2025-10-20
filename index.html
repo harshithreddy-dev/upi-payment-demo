@@ -13,80 +13,80 @@
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                     },
+                    colors: {
+                        'vibe-yellow': '#FACC15', // Tailwind yellow-400
+                        'vibe-dark': '#1F2937', // Tailwind gray-800
+                        'vibe-black': '#111827', // Tailwind gray-900
+                    }
                 }
             }
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+        /* Ensuring all transitions are smooth */
+        #app, button, input {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+<body class="bg-vibe-black min-h-screen flex items-center justify-center p-4">
 
-    <div id="app" class="bg-white shadow-2xl rounded-xl p-6 md:p-10 w-full max-w-md transform transition duration-500 ease-in-out hover:shadow-3xl">
+    <div id="app" class="bg-vibe-dark shadow-2xl rounded-xl p-6 md:p-10 w-full max-w-md transform border border-gray-700 hover:shadow-[0_20px_50px_rgba(250,204,21,0.25)]">
         <header class="text-center mb-8">
-            <h1 class="text-3xl font-bold text-gray-800">Payment Gateway Demo</h1>
-            <p class="text-sm text-gray-500 mt-1">Assignment: Custom UPI Deep-Link Flow</p>
+            <h1 class="text-3xl font-extrabold text-white">Payment Demo</h1>
+            <p class="text-sm text-gray-400 mt-1">Vibe Coding - UPI Deep-Link Flow</p>
         </header>
 
         <!-- Order Summary Card -->
-        <div class="bg-blue-50 border border-blue-200 p-5 rounded-lg mb-6">
-            <h2 class="text-xl font-semibold text-blue-800 mb-3">Order Summary</h2>
+        <div class="bg-gray-700 border border-gray-600 p-5 rounded-lg mb-6 shadow-lg">
+            <h2 class="text-xl font-bold text-vibe-yellow mb-3">Order Total</h2>
             
-            <div class="space-y-2 text-gray-700">
-                <div class="flex justify-between border-b border-blue-100 pb-1">
-                    <span>Internship Test Fee:</span>
-                    <span class="font-medium">₹1.00</span>
-                </div>
-                <div class="flex justify-between border-b border-blue-100 pb-1">
-                    <span>Tax:</span>
-                    <span class="font-medium">₹0.00</span>
-                </div>
-                <div class="flex justify-between pt-2 text-lg font-bold text-blue-900">
-                    <span>Total Amount Due:</span>
+            <div class="space-y-2 text-gray-300">
+                <!-- Removed test fee/tax breakdown, showing just the total -->
+                <div class="flex justify-between pt-2 text-3xl font-extrabold text-white">
+                    <span>Amount:</span>
                     <span>₹1.00</span>
                 </div>
             </div>
 
-            <div class="mt-4 text-xs text-gray-600 flex justify-between items-center bg-white p-3 rounded-md border border-dashed border-gray-300">
+            <div class="mt-4 text-xs text-gray-400 flex justify-between items-center bg-gray-900 p-3 rounded-md border border-dashed border-gray-700">
                 <span id="orderId" class="font-mono text-xs">Order ID: Loading...</span>
-                <button onclick="copyOrderId()" class="text-blue-500 hover:text-blue-700 transition duration-150 p-1 rounded-full hover:bg-gray-100" title="Copy Order ID">
-                    <!-- Lucide Icon: Copy -->
+                <button onclick="copyOrderId()" class="text-vibe-yellow hover:text-white transition duration-150 p-1 rounded-full hover:bg-gray-700" title="Copy ID">
+                    <!-- Lucide Icon: Copy (Color adjusted via text-color) -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
                 </button>
             </div>
         </div>
 
         <!-- Payment Button -->
-        <button id="payButton" onclick="redirectToPayment()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-[1.01] flex items-center justify-center space-x-2">
+        <button id="payButton" onclick="redirectToPayment()" class="w-full bg-vibe-yellow hover:bg-yellow-500 text-gray-900 font-bold py-4 rounded-lg shadow-xl transition duration-300 ease-in-out transform hover:scale-[1.03] active:scale-[0.98] flex items-center justify-center space-x-3 text-lg">
             <!-- Inline SVG for UPI Icon -->
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-indian-rupee"><path d="M6 3h12"/><path d="M6 8h12"/><path d="M6 13l8.5 4.5 1.5-2.5"/><path d="M10 13h4"/></svg>
-            <span>Pay ₹1.00 via UPI Deep-Link</span>
+            <span>PAY NOW</span>
         </button>
-        <p class="text-center text-xs text-gray-500 mt-2">This will attempt to open your default UPI App.</p>
+        <p class="text-center text-xs text-gray-500 mt-2">Opens UPI app via deep-link.</p>
         
         <!-- Verification Section (for demo) -->
-        <div class="mt-8 pt-6 border-t border-gray-200">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Manual UTR Verification (Demo)</h3>
-            <p class="text-sm text-gray-600 mb-4">Since UPI deep-links do not automatically return status, enter the last 4 digits of the UTR below to simulate confirmation.</p>
+        <div class="mt-8 pt-6 border-t border-gray-700">
+            <h3 class="text-lg font-bold text-white mb-4">Verification</h3>
+            <p class="text-sm text-gray-400 mb-4">Enter last 4 digits of UTR for demo confirmation.</p>
 
             <div class="flex space-x-3">
-                <input type="text" id="utrInput" maxlength="4" placeholder="Last 4 digits of UTR" class="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-center text-lg tracking-widest" oninput="this.value = this.value.replace(/[^0-9]/g, '').toUpperCase()">
-                <button onclick="verifyPayment()" class="bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-3 rounded-lg shadow-md transition duration-300 ease-in-out">
-                    Verify
+                <input type="text" id="utrInput" maxlength="4" placeholder="LAST 4 DIGITS" class="flex-grow p-3 border border-gray-600 bg-gray-900 text-white rounded-lg focus:ring-vibe-yellow focus:border-vibe-yellow text-center text-lg tracking-widest" oninput="this.value = this.value.replace(/[^0-9]/g, '').toUpperCase()">
+                <button onclick="verifyPayment()" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-3 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+                    VERIFY
                 </button>
             </div>
 
             <!-- Verification Status Message Box -->
-            <div id="statusMessage" class="mt-4 p-3 rounded-lg hidden text-center font-medium"></div>
+            <div id="statusMessage" class="mt-4 p-3 rounded-lg hidden text-center font-semibold text-gray-900"></div>
 
-            <!-- Note: Mechanism to confirm payment -->
-            <div class="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-sm">
-                <h4 class="font-bold text-yellow-800 mb-1">Verification Mechanism (Document Submission)</h4>
-                <p class="text-yellow-700">
-                    **1. Standard Method:** A dedicated **backend server** is required to receive Webhooks (e.g., from Cashfree) or poll the transaction status API. This is the secure way to confirm payment.
-                    <br><br>
-                    **2. Bonus/SMS Confirmation:** Web browsers are **securely prevented** from reading SMS messages (Android/iOS security). The only way to fulfill the bonus requirement is to build a dedicated **Android/iOS app** using SMS Reader permissions and the `upi://pay` deep link, then communicate the successful status to a backend server. **It is impossible to implement in this web-only file.**
+            <!-- Note: Mechanism to confirm payment (Minimal Text) -->
+            <div class="mt-6 p-4 bg-gray-900 border border-vibe-yellow rounded-lg text-sm shadow-inner">
+                <h4 class="font-bold text-vibe-yellow mb-1">Verification Note</h4>
+                <p class="text-gray-300">
+                    Secure status confirmation requires a **backend server** (Webhooks/API polling). SMS confirmation is **impossible in a browser**.
                 </p>
             </div>
         </div>
@@ -105,7 +105,6 @@
 
         /**
          * Generates a simple, unique Order ID based on timestamp and a random suffix.
-         * Format: VBC-YYYYMMDD-HHMMSS-XXXX
          */
         function generateOrderId() {
             const now = new Date();
@@ -132,7 +131,7 @@
             document.execCommand('copy');
             document.body.removeChild(tempInput);
 
-            showMessage('Order ID copied to clipboard!', 'success');
+            showMessage('ID Copied!', 'success');
         }
 
         /**
@@ -141,15 +140,20 @@
         function showMessage(message, type) {
             const msgBox = document.getElementById('statusMessage');
             msgBox.textContent = message;
-            msgBox.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700', 'bg-yellow-100', 'text-yellow-700');
+            // Reset classes
+            msgBox.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700', 'bg-yellow-100', 'text-yellow-700', 'bg-green-400', 'bg-red-400', 'text-gray-900', 'font-semibold');
+            
+            // Set new dark mode classes
+            msgBox.classList.add('font-bold', 'text-gray-900');
             
             if (type === 'success') {
-                msgBox.classList.add('bg-green-100', 'text-green-700');
+                msgBox.classList.add('bg-green-400'); // Bright Green for success
             } else if (type === 'error') {
-                msgBox.classList.add('bg-red-100', 'text-red-700');
+                msgBox.classList.add('bg-red-400'); // Bright Red for error
             } else {
-                msgBox.classList.add('bg-yellow-100', 'text-yellow-700');
+                msgBox.classList.add('bg-vibe-yellow'); // Vibe Yellow for warning
             }
+            msgBox.classList.remove('hidden');
 
             // Hide after 5 seconds
             setTimeout(() => {
@@ -174,19 +178,19 @@
             const orderId = document.getElementById('orderId').textContent.replace('Order ID: ', '');
             
             if (MERCHANT_VPA.includes("vibe.coding.test@cashfree")) {
-                showMessage("CRITICAL: Please update the MERCHANT_VPA with your *working* UPI ID. Trying with placeholders.", 'warning');
+                showMessage("UPDATE VPA! Using placeholder ID.", 'warning');
             }
 
             const currentUrl = window.location.href.split('?')[0]; // Get URL without query params
 
-            // UPDATED: Including 'mc', 'mode', and 'url' for better compatibility
+            // UPI DEEP LINK: Including 'mc', 'mode', and 'url' for best web compatibility
             const upiLink = `upi://pay?pa=${MERCHANT_VPA}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${AMOUNT}&cu=INR&tn=${orderId}&mc=${MERCHANT_MCC}&mode=${MERCHANT_MODE}&url=${encodeURIComponent(currentUrl)}`;
 
             // Redirecting the window to the UPI deep link
             window.location.href = upiLink;
 
             // Show instruction for manual verification immediately
-            showMessage('Redirecting to your UPI app. Please return here after payment to enter the UTR.', 'warning');
+            showMessage('Launching UPI App...', 'warning');
         }
 
         /**
@@ -197,16 +201,16 @@
             const orderId = document.getElementById('orderId').textContent.replace('Order ID: ', '');
 
             if (utr.length !== 4 || isNaN(utr)) {
-                showMessage("Please enter exactly 4 digits for the UTR.", 'error');
+                showMessage("Enter 4 digits.", 'error');
                 return;
             }
 
             // --- Mock Verification Logic ---
             // Simulating successful verification for UTRs ending in '9999' or '1234'
             if (utr === '9999' || utr === '1234') {
-                showMessage(`SUCCESS! Payment for Order ${orderId} verified successfully using UTR ending in ${utr}. (Demo successful)`, 'success');
+                showMessage(`SUCCESS! Order ${orderId} verified.`, 'success');
             } else {
-                showMessage(`PENDING/FAILED. Payment for Order ${orderId} with UTR ending in ${utr} could not be confirmed. Please wait or check your bank statement. (Demo failure)`, 'error');
+                showMessage(`FAILED. Cannot confirm Order ${orderId}.`, 'error');
             }
 
             document.getElementById('utrInput').value = ''; // Clear input after attempt
