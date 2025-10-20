@@ -98,7 +98,8 @@
         const MERCHANT_VPA = "8247209662-1@okbizaxis"; // Replace with your Merchant UPI ID
         const MERCHANT_NAME = "Harshith";
         const AMOUNT = "1.00"; // Fixed at INR 1.00 as requested
-        const MERCHANT_MCC = "5499"; // ADDED: Standard Merchant Category Code (General Retail/Miscellaneous)
+        const MERCHANT_MCC = "5499"; // Standard Merchant Category Code (General Retail/Miscellaneous)
+        const MERCHANT_MODE = "01"; // Person to Merchant Mode (P2M)
         
         // --- Utility Functions ---
 
@@ -176,8 +177,10 @@
                 showMessage("CRITICAL: Please update the MERCHANT_VPA with your *working* UPI ID. Trying with placeholders.", 'warning');
             }
 
-            // UPDATED: Including the optional 'mc' (Merchant Category Code) parameter
-            const upiLink = `upi://pay?pa=${MERCHANT_VPA}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${AMOUNT}&cu=INR&tn=${orderId}&mc=${MERCHANT_MCC}`;
+            const currentUrl = window.location.href.split('?')[0]; // Get URL without query params
+
+            // UPDATED: Including 'mc', 'mode', and 'url' for better compatibility
+            const upiLink = `upi://pay?pa=${MERCHANT_VPA}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${AMOUNT}&cu=INR&tn=${orderId}&mc=${MERCHANT_MCC}&mode=${MERCHANT_MODE}&url=${encodeURIComponent(currentUrl)}`;
 
             // Redirecting the window to the UPI deep link
             window.location.href = upiLink;
