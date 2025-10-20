@@ -67,8 +67,8 @@
         
         <!-- Verification Section (for demo) -->
         <div class="mt-8 pt-6 border-t border-gray-200">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Manual Verification (Demo)</h3>
-            <p class="text-sm text-gray-600 mb-4">After a successful payment, enter the last 4 digits of the UPI Reference Number (UTR) below for manual verification demo.</p>
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Manual UTR Verification (Demo)</h3>
+            <p class="text-sm text-gray-600 mb-4">After a successful payment, enter the last 4 digits of the UPI Reference Number (UTR) below to simulate payment confirmation.</p>
 
             <div class="flex space-x-3">
                 <input type="text" id="utrInput" maxlength="4" placeholder="Last 4 digits of UTR" class="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-center text-lg tracking-widest" oninput="this.value = this.value.replace(/[^0-9]/g, '').toUpperCase()">
@@ -79,6 +79,12 @@
 
             <!-- Verification Status Message Box -->
             <div id="statusMessage" class="mt-4 p-3 rounded-lg hidden text-center font-medium"></div>
+
+            <!-- New Section: Backend Necessity -->
+            <div class="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-sm">
+                <h4 class="font-bold text-yellow-800 mb-1">Internship Note: Server-Side Confirmation</h4>
+                <p class="text-yellow-700">For **automatic** confirmation and triggering an **SMS** or email notification, you must implement a secure **backend server** to receive the **Cashfree Webhook** with the transaction status. This client-only file cannot securely store the necessary API keys.</p>
+            </div>
         </div>
     </div>
 
@@ -86,8 +92,8 @@
         // CRITICAL: Replace this with your actual Cashfree PAYMENT FORM URL
         // Go to your Cashfree Dashboard -> Payment Forms -> Create Form -> Copy the public sharing URL here.
         // Example: https://gopay.cashfree.com/p/forms/your-form-id
-        const CASHFREE_PAYMENT_URL = "https://payments.cashfree.com/forms/upipaymentdemo"; // IMPORTANT: Update this
-
+        const CASHFREE_PAYMENT_URL = "https://payments.cashfree.com/forms/upipaymentdemo"; // Using the URL you provided
+        
         // --- Utility Functions ---
 
         /**
@@ -158,13 +164,12 @@
          * Redirects the user to the Cashfree payment URL.
          */
         function redirectToPayment() {
-            // Note: We cannot pass the dynamically generated Order ID (VBC-...) 
-            // directly to the no-code Payment Form URL. 
-            // The Payment Form will generate its own order ID when the user lands on it.
+            
+            // Note: Since you provided a specific URL, I'll use it directly.
+            // In a real application, you might add query parameters here if supported by the form.
             
             if (CASHFREE_PAYMENT_URL.includes("your-unique-payment-form-id")) {
-                showMessage("CRITICAL ERROR: Please update the CASHFREE_PAYMENT_URL variable in the script with your actual Cashfree Payment Form link.", 'error');
-                return;
+                showMessage("CRITICAL ERROR: Please confirm the CASHFREE_PAYMENT_URL is correctly set. Using placeholder link now.", 'error');
             }
 
             // Redirecting the window to the Cashfree Payment Form
@@ -196,7 +201,3 @@
     </script>
 </body>
 </html>
-
-
-
-
